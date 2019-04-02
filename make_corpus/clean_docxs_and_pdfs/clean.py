@@ -101,14 +101,14 @@ if __name__ == '__main__':
     cleaned = 'cleaned'
     if cleaned not in os.listdir(os.getcwd()):
         os.mkdir(cleaned)
-    res_dir = cleaned+'/'+journal
-    if journal not in os.listdir(os.getcwd()+'/'+cleaned):
-        os.mkdir(cleaned+'/'+journal)
+    res_dir = "cleaned/{0}_{1}/".format(journal, year)
+    if not os.path.exists(res_dir):
+        os.mkdir(res_dir)
     total_count = 0
-    for i, file in enumerate(os.listdir(target_dir)):
-        with open("cleaned/{0}/{1}_{2}.txt".format(journal, year, i), 'w', encoding='utf-8') as f:
-            text, count = document_to_text(target_dir+'/'+file)
+    for file in os.listdir(target_dir):
+        with open(os.path.join(res_dir, "{0}.txt".format(file)), 'w', encoding='utf-8') as f:
+            text, count = document_to_text(target_dir + '/' + file)
             f.write(text)
-            print(i, count)
+            print(file, count)
             total_count += count
     print("Files in this directory contain {0} tokens".format(total_count))
